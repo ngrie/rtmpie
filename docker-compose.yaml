@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  database:
+    image: mariadb:10.4
+    environment:
+      MYSQL_ROOT_PASSWORD: rtmpie
+      MYSQL_DATABASE: rtmpie
+    volumes:
+      - database:/var/lib/mysql
+    ports: [3306]
+
+  rtmp:
+    image: ngrie/nginx-rtmp
+    volumes:
+      - ./rtmp_nginx_dev.conf:/etc/nginx/nginx.conf
+    ports:
+      - 1935:1935
+
+volumes:
+  database:

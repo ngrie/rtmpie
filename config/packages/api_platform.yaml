@@ -1,0 +1,16 @@
+api_platform:
+    title: 'RTMPie API'
+    show_webby: false
+
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    formats:
+        json:
+            mime_types: ['application/json']
+        html:
+            mime_types: ['text/html']
+    swagger:
+        versions: [3]
+    collection:
+        pagination:
+            enabled: false

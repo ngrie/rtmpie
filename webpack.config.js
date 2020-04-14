@@ -1,3 +1,4 @@
+const path = require('path')
 var Encore = require('@symfony/webpack-encore');
 
 if (!Encore.isRuntimeEnvironmentConfigured()) {
@@ -9,6 +10,11 @@ Encore
   .setPublicPath('/build')
 
   .addEntry('admin', './assets/js/admin/index.js')
+
+  .addAliases({
+    api: path.resolve(__dirname, 'assets/js/api'),
+    ui: path.resolve(__dirname, 'assets/js/admin/ui'),
+  })
 
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   .splitEntryChunks()

@@ -11,6 +11,7 @@ class PageController extends AbstractController
 {
     /**
      * @Route("/admin", name="admin")
+     * @Route("/admin/{path}", requirements={"path"=".+"})
      */
     public function admin()
     {

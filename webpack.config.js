@@ -35,6 +35,8 @@ Encore
 
   .enableIntegrityHashes(Encore.isProduction())
 
+  .enablePostCssLoader()
+
   .enableVueLoader()
 ;
 

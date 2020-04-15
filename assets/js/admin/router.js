@@ -2,7 +2,7 @@ import VueRouter from 'vue-router'
 
 import Login from './Login'
 import Dashboard from './pages/Dashboard'
-import Streams from './pages/Streams'
+import Streams from './pages/Streams/Streams'
 
 const routes = [
   { path: '/login', component: Login, name: 'login' },

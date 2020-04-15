@@ -16,6 +16,6 @@
 
   export default {
     name: 'Dashboard',
-      components: { PageTitle, PageHeader, PageWrapper },
+    components: { PageTitle, PageHeader, PageWrapper },
   }
 </script>

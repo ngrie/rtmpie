@@ -21,6 +21,7 @@
     </PageWrapper>
 
     <AddStreamModal v-model="addModalOpen" />
+    <SseConnectionErrorNotification v-model="sseErrorNotification" />
   </div>
 </template>
 
@@ -33,19 +34,41 @@
   import BaseButton from 'ui/BaseButton'
   import StreamItem from './StreamItem'
   import AddStreamModal from './AddStreamModal'
+  import SseConnectionErrorNotification from './SseConnectionErrorNotification'
 
   export default {
     name: 'Streams',
-    components: { AddStreamModal, StreamItem, BaseButton, StreamList, PageTitle, PageHeader, PageWrapper },
+    components: {
+      SseConnectionErrorNotification,
+      AddStreamModal,
+      StreamItem,
+      BaseButton,
+      StreamList,
+      PageTitle,
+      PageHeader,
+      PageWrapper,
+    },
     data() {
       return {
         addModalOpen: false,
+        sseErrorNotification: false,
       }
     },
     computed: {
       ...mapGetters('streams', {
         streams: 'all',
+        hasSseError: 'hasSseError',
       }),
+    },
+    watch: {
+      hasSseError: {
+        handler(val) {
+          if (val) {
+            this.sseErrorNotification = true
+          }
+        },
+        immediate: true,
+      },
     },
   }
 </script>

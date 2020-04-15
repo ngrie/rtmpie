@@ -17,7 +17,10 @@ class PageController extends AbstractController
     public function admin(Request $request)
     {
         return $this->render('admin.html.twig', [
-            'host' => $request->getHost(),
+            'config' => [
+                'host' => $request->getHost(),
+                'sseHost' => 'http://127.0.0.1:8008/.well-known/mercure', // TODO
+            ],
         ]);
     }
 

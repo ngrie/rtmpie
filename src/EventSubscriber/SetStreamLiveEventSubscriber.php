@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
+use App\EntityPublisher;
 use App\Event\StreamEndedEvent;
 use App\Event\StreamStartedEvent;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,10 +13,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class SetStreamLiveEventSubscriber implements EventSubscriberInterface
 {
     private EntityManagerInterface $entityManager;
+    private EntityPublisher $publisher;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, EntityPublisher $publisher)
     {
         $this->entityManager = $entityManager;
+        $this->publisher = $publisher;
     }
 
     /**
@@ -31,13 +34,19 @@ class SetStreamLiveEventSubscriber implements EventSubscriberInterface
 
     public function onStreamStarted(StreamStartedEvent $event)
     {
-        $event->getStream()->setLive(true);
+        $stream = $event->getStream();
+        $stream->setLive(true);
         $this->entityManager->flush();
+
+        $this->publisher->publish($stream);
     }
 
     public function onStreamEnded(StreamEndedEvent $event)
     {
-        $event->getStream()->setLive(false);
+        $stream = $event->getStream();
+        $stream->setLive(false);
         $this->entityManager->flush();
+
+        $this->publisher->publish($stream);
     }
 }

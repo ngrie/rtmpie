@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     normalizationContext={"read"},
  *     denormalizationContext={"write"},
+ *     mercure=true,
  * )
  */
 class Stream

@@ -14,9 +14,7 @@
 <div id="app"></div>
 
 <script type="text/javascript">
-    var rtmpie_config = {
-        host: '{{ host }}'
-    };
+    var rtmpie_config = JSON.parse('{{ config|json_encode|raw }}');
 </script>
 {{ encore_entry_script_tags('admin') }}
 </body>

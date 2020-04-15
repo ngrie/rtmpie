@@ -3,7 +3,7 @@
     <PageHeader>
       <PageTitle>Streams</PageTitle>
       <template #actions>
-        <BaseButton :icon="['fas', 'plus']">
+        <BaseButton color="primary" :icon="['fas', 'plus']" @click="addModalOpen = true">
           Create stream
         </BaseButton>
       </template>
@@ -19,29 +19,33 @@
         />
       </StreamList>
     </PageWrapper>
+
+    <AddStreamModal v-model="addModalOpen" />
   </div>
 </template>
 
 <script>
-  import api from 'api'
+  import { mapGetters } from 'vuex'
   import PageWrapper from 'ui/layout/PageWrapper'
   import PageHeader from 'ui/layout/PageHeader'
   import PageTitle from 'ui/layout/PageTitle'
   import StreamList from 'ui/streamList/StreamList'
   import BaseButton from 'ui/BaseButton'
   import StreamItem from './StreamItem'
+  import AddStreamModal from './AddStreamModal'
 
   export default {
     name: 'Streams',
-    components: { StreamItem, BaseButton, StreamList, PageTitle, PageHeader, PageWrapper },
+    components: { AddStreamModal, StreamItem, BaseButton, StreamList, PageTitle, PageHeader, PageWrapper },
     data() {
       return {
-        streams: [],
+        addModalOpen: false,
       }
     },
-    async mounted() {
-      const { data } = await api('streams')
-      this.streams = data
+    computed: {
+      ...mapGetters('streams', {
+        streams: 'all',
+      }),
     },
   }
 </script>

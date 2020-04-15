@@ -13,7 +13,9 @@
         "symfony/framework-bundle": "5.0.*",
         "symfony/monolog-bundle": "^3.5",
         "symfony/orm-pack": "^1.0",
+        "symfony/polyfill-uuid": "^1.15",
         "symfony/security-bundle": "5.0.*",
+        "symfony/string": "5.0.*",
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "5.0.*"
     },

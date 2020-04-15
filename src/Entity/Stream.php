@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StreamRepository")
+ * @ORM\HasLifecycleCallbacks
  * @ApiResource(
- *     collectionOperations={"get"},
- *     itemOperations={"get"},
+ *     normalizationContext={"read"},
+ *     denormalizationContext={"write"},
  * )
  */
 class Stream
@@ -18,31 +20,37 @@ class Stream
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"read", "write"})
      */
     private $slug;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, name="secret_key")
+     * @Groups({"read"})
      */
     private $key;
 
     /**
      * @ORM\Column(type="boolean", options={"default": 0})
+     * @Groups({"read"})
      */
     private $live = false;
 
     /**
      * @ORM\Column(type="integer", options={"default": 0})
+     * @Groups({"read"})
      */
     private $viewerCount = 0;
 

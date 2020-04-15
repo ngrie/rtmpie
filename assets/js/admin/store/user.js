@@ -20,22 +20,24 @@ const createUserModule = () => ({
     },
   },
   actions: {
-    async init({ commit }) {
+    async init({ commit, dispatch }) {
       try {
         const { data } = await axios.get('/me')
         commit('setUser', data)
         commit('checkedAuthentication')
+        dispatch('authenticated', null, { root: true })
       } catch (e) {
         if (e.response && e.response.status === 401) {
           commit('checkedAuthentication')
         }
       }
     },
-    login({ commit }, credentials) {
+    login({ commit, dispatch }, credentials) {
       return axios.post('/login', credentials)
         .then(({ data }) => {
           commit('setUser', data)
           commit('checkedAuthentication')
+          dispatch('authenticated', null, { root: true })
           return data
         })
     }

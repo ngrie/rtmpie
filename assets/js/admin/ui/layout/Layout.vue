@@ -24,12 +24,21 @@
                   </button>
                 </div>
                 <transition enter-active-class="transition ease-out duration-100" enter-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-                  <div v-if="userMenuOpen" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
+                  <div
+                    v-if="userMenuOpen"
+                    class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg"
+                    @click="closeUserMenu"
+                  >
                     <div class="py-1 rounded-md bg-white shadow-xs">
                       <div class="px-4 py-2 text-sm text-gray-500 border-b border-gray-200">
                         {{ user.username }}
                       </div>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">User settings</a>
+                      <router-link
+                        :to="{ name: 'user_settings' }"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Personal settings
+                      </router-link>
                       <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
                     </div>
                   </div>

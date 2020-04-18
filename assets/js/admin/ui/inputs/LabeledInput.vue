@@ -10,6 +10,7 @@
         :id="id"
         class="form-input block w-full sm:text-sm sm:leading-5"
         @input="$emit('input', $event.target.value)"
+        v-on="listeners"
       />
     </div>
   </div>
@@ -33,6 +34,10 @@
     computed: {
       id() {
         return `LabeledInput-${this.suffix}`
+      },
+      listeners() {
+        const { input, ...rest } = this.$listeners
+        return rest
       },
     },
     beforeMount() {

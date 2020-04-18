@@ -21,11 +21,14 @@ services:
       - 8008:80
 
   rtmp:
-    image: ngrie/nginx-rtmp
+#    image: ngrie/nginx-rtmp
+    build:
+      context: ./docker/nginx-rtmp
     volumes:
       - ./rtmp_nginx_dev.conf:/etc/nginx/nginx.conf
     ports:
       - 1935:1935
+      - 8081:80
 
 volumes:
   database:

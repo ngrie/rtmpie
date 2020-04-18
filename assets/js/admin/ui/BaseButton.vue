@@ -28,6 +28,9 @@
           case 'primary':
             classes.push('text-white bg-indigo-600 hover:bg-indigo-500 focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700')
             break;
+            case 'red':
+              classes.push('bg-red-600 text-white hover:bg-red-500 focus:border-red-700 focus:shadow-outline-red')
+              break;
           default:
             classes.push('border-gray-300 bg-white text-gray-700 hover:text-gray-500 focus:border-blue-300')
         }

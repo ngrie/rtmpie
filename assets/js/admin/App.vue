@@ -39,7 +39,7 @@
   import MobileNavigationItem from './ui/layout/MobileNavigationItem'
 
   const navItems = [
-    { to: '/', label: 'Dashboard', exact: true },
+    // { to: '/', label: 'Dashboard', exact: true },
     { to: '/streams', label: 'Streams' },
     { to: '/users', label: 'Users' },
   ]

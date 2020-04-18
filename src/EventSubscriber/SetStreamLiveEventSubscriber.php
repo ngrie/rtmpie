@@ -45,6 +45,7 @@ class SetStreamLiveEventSubscriber implements EventSubscriberInterface
     {
         $stream = $event->getStream();
         $stream->setLive(false);
+        $stream->setViewerCount(0);
         $this->entityManager->flush();
 
         $this->publisher->publish($stream);

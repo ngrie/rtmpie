@@ -1,7 +1,8 @@
 <template>
   <StreamListItem :first="first">
     <template #image>
-      <img class="h-12 w-12 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+      <img v-if="thumbnailUrl" class="h-16 w-20 object-cover rounded shadow" :src="thumbnailUrl" alt="" />
+      <div v-else class="border-4 border-dashed border-gray-200 rounded-lg h-16 w-20"></div>
     </template>
     <template #details>
       <div class="text-sm leading-loose text-gray-900">
@@ -29,7 +30,7 @@
       </div>
     </template>
     <template #actions>
-      <router-link to="/">Edit</router-link>
+      <router-link :to="{ name: 'stream', params: { id: stream.id } }">Edit</router-link>
     </template>
 
     <div class="text-sm leading-5 font-medium text-indigo-600 truncate">
@@ -49,7 +50,8 @@
 <script>
   import Badge from 'ui/Badge'
   import StreamListItem from 'ui/streamList/StreamListItem'
-  import { config } from '../../utils'
+  import { getRtmpPrefix } from 'utils'
+
   export default {
     name: 'StreamItem',
     components: { StreamListItem, Badge },
@@ -58,15 +60,16 @@
         type: Object,
         required: true,
       },
+      thumbnailUrl: String,
       first: Boolean,
     },
     computed: {
       streamUrl() {
-        return `rtmp://${config('host')}/live/${this.stream.slug}`
+        return getRtmpPrefix() + this.stream.slug
       },
       streamKey() {
         return `${this.stream.slug}?key=${this.stream.key}`
-      }
+      },
     },
     methods: {
       copyStreamUrl() {

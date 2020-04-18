@@ -13,6 +13,7 @@ Encore
 
   .addAliases({
     api: path.resolve(__dirname, 'assets/js/api'),
+    utils: path.resolve(__dirname, 'assets/js/admin/utils'),
     ui: path.resolve(__dirname, 'assets/js/admin/ui'),
   })
 

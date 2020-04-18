@@ -1,7 +1,7 @@
 <template>
   <Modal :value="value" v-on="$listeners">
     <ModalTitle>Create stream</ModalTitle>
-    <LabeledInput v-model="name" focus label="Name" class="mt-2" />
+    <LabeledInput v-model="name" focus label="Name" class="mt-2" @keypress.enter="createStream" />
 
     <template #actions>
       <BaseButton
@@ -52,6 +52,10 @@
     methods: {
       ...mapActions('streams', ['create']),
       async createStream() {
+        if (!this.name) {
+          return
+        }
+
         const { name } = this
         await this.create(name)
         this.close()

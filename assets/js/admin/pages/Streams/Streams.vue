@@ -15,6 +15,7 @@
           v-for="(stream, index) in streams"
           :key="stream.id"
           :stream="stream"
+          :thumbnail-url="thumbnailById(stream.id)"
           :first="!index"
         />
       </StreamList>
@@ -26,7 +27,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
   import PageWrapper from 'ui/layout/PageWrapper'
   import PageHeader from 'ui/layout/PageHeader'
   import PageTitle from 'ui/layout/PageTitle'
@@ -52,11 +53,14 @@
       return {
         addModalOpen: false,
         sseErrorNotification: false,
+        thumbnailInterval: null,
       }
     },
     computed: {
       ...mapGetters('streams', {
         streams: 'all',
+        liveStreams: 'liveStreams',
+        thumbnailById: 'thumbnailById',
         hasSseError: 'hasSseError',
       }),
     },
@@ -69,6 +73,20 @@
         },
         immediate: true,
       },
+    },
+    mounted() {
+      this.thumbnailInterval = setInterval(() => {
+        if (this.liveStreams.length) {
+          this.fetchThumbnails()
+        }
+      }, 20000)
+      this.fetchThumbnails()
+    },
+    beforeDestroy() {
+      clearInterval(this.thumbnailInterval)
+    },
+    methods: {
+      ...mapActions('streams', ['fetchThumbnails']),
     },
   }
 </script>

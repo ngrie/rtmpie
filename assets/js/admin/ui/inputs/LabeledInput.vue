@@ -8,6 +8,7 @@
         ref="input"
         :value="value"
         :id="id"
+        :type="type"
         class="form-input block w-full sm:text-sm sm:leading-5"
         @input="$emit('input', $event.target.value)"
         v-on="listeners"
@@ -25,6 +26,10 @@
       value: String,
       label: String,
       focus: Boolean,
+      type: {
+        type: String,
+        default: 'text',
+      },
     },
     data() {
       return {

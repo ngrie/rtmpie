@@ -4,6 +4,7 @@ import Login from './Login'
 // import Dashboard from './pages/Dashboard'
 import Streams from './pages/Streams/Streams'
 import StreamForm from './pages/Streams/form/StreamForm'
+import Users from './pages/Users/Users'
 
 const routes = [
   { path: '/login', component: Login, name: 'login' },
@@ -12,6 +13,7 @@ const routes = [
   { path: '/', redirect: { name: 'streams' } },
   { path: '/streams', component: Streams, name: 'streams' },
   { path: '/streams/:id', component: StreamForm, name: 'stream', props: true },
+  { path: '/users', component: Users, name: 'users' },
 ]
 
 const createRouter = (store) => {

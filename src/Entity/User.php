@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ApiResource(
  *     collectionOperations={"get"},
- *     itemOperations={"get"},
+ *     itemOperations={"get", "delete"},
  *     normalizationContext={"groups"={"read"}},
  * )
  */
@@ -33,7 +33,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"read"})
      */
     private $roles = [];
 

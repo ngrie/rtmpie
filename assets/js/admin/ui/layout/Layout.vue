@@ -4,13 +4,11 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <div class="h-8 w-8">
-                RTMPie
-              </div>
+            <div class="flex-shrink-0 text-indigo-500 font-bold font-mono text-lg tracking-wide">
+              RTMPie
             </div>
             <div class="hidden md:block">
-              <div class="ml-10 flex items-baseline">
+              <div class="ml-4 flex items-baseline">
                 <slot name="navigation" />
               </div>
             </div>

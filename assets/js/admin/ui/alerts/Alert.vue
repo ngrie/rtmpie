@@ -8,6 +8,7 @@
         <p class="text-sm leading-5" :class="textClass">
           <slot />
         </p>
+        <slot name="actions" />
       </div>
     </div>
   </div>

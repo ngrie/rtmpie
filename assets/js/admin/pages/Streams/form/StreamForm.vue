@@ -33,7 +33,8 @@
           <div class="px-4 sm:px-0">
             <h3 class="text-lg font-medium leading-6 text-gray-900">General</h3>
             <p class="mt-1 text-sm leading-5 text-gray-500">
-              Name, stream key etc.
+              Edit the name and slug of the stream.<br>
+              <strong>Please note:</strong> The slug is part of the "stream key" used to connect to the stream within the streaming software. If it is changed, the streaming settings in your streaming software need to be adjusted as well.
             </p>
           </div>
         </div>
@@ -41,6 +42,26 @@
           <form method="POST" @submit.prevent="updateStream">
             <div class="shadow sm:rounded-md sm:overflow-hidden">
               <div class="px-4 py-5 bg-white sm:p-6">
+                <Alert v-if="dataChanged" class="mb-4">
+                  Stream information changed since you opened this page. You should update the form to avoid overriding the new values accidentally.
+                  <template #icon>
+                    <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                  </template>
+                  <template #actions>
+                    <p class="mt-3 text-sm leading-5 md:mt-0 md:ml-6">
+                      <a
+                        href="#"
+                        class="whitespace-no-wrap font-medium text-blue-700 hover:text-blue-600 transition ease-in-out duration-150"
+                        @click.prevent="updateForm"
+                      >
+                        <fa-icon :icon="['fas', 'redo']" class="mr-1" />
+                        Update form
+                      </a>
+                    </p>
+                  </template>
+                </Alert>
                 <SuccessAlert v-if="showGeneralSuccess" class="mb-4" @dismiss="showGeneralSuccess = false">
                   Changes saved successfully.
                 </SuccessAlert>
@@ -49,7 +70,7 @@
                   <div class="col-span-3 sm:col-span-2">
                     <label for="name" class="block text-sm font-medium leading-5 text-gray-700">Name</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
-                      <input v-model="stream.name" id="name" class="form-input block w-full sm:text-sm sm:leading-5" />
+                      <input v-model="form.name" id="name" class="form-input block w-full sm:text-sm sm:leading-5" />
                     </div>
                   </div>
                 </div>
@@ -63,7 +84,7 @@
                       <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                         {{ rtmpPrefix }}
                       </span>
-                      <input v-model="stream.slug" id="slug" class="form-input flex-1 block w-full rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                      <input v-model="form.slug" id="slug" class="form-input flex-1 block w-full rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
                     </div>
                   </div>
                 </div>
@@ -175,11 +196,17 @@
     },
     data() {
       return {
+        form: {
+          name: null,
+          slug: null,
+        },
+
         showDeleteStreamDialog: false,
         showRegenerateKeyDialog: false,
         showStreamingCredentialsModal: false,
         showGeneralSuccess: false,
         showKeySuccess: false,
+        dataChanged: false,
       }
     },
     computed: {
@@ -193,11 +220,26 @@
         return `${getRtmpPrefix()}/`
       },
     },
+    watch: {
+      stream: {
+        handler(val) {
+          if (!val) return
+          if (this.form.name === null) {
+            this.form.name = val.name
+            this.form.slug = val.slug
+          } else if (val.name !== this.form.name || val.slug !== this.form.slug) {
+            this.dataChanged = true
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
     methods: {
       ...mapActions('streams', ['update', 'delete']),
       async updateStream() {
         this.showGeneralSuccess = false
-        const { name, slug } = this.stream
+        const { name, slug } = this.form
         await this.update({ id: this.stream.id, data: { name, slug } })
         this.showGeneralSuccess = true
       },
@@ -209,6 +251,11 @@
         this.showKeySuccess = false
         await this.$store.dispatch('streams/regenerateKey', this.stream.id)
         this.showKeySuccess = true
+      },
+      updateForm() {
+        this.form.name = this.stream.name
+        this.form.slug = this.stream.slug
+        this.dataChanged = false
       },
       openStreamingCredentialsModal() {
         this.showStreamingCredentialsModal = true

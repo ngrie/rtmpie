@@ -90,7 +90,13 @@ const createStreamsModule = () => ({
         .then(() => {
           dispatch('fetch')
         })
-    }
+    },
+    regenerateKey({ dispatch }, streamId) {
+      return api.post('regenerate_stream_key_requests', { streamId })
+        .then(() => {
+          dispatch('fetch')
+        })
+    },
   },
 })
 

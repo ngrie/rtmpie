@@ -41,6 +41,10 @@
           <form method="POST" @submit.prevent="updateStream">
             <div class="shadow sm:rounded-md sm:overflow-hidden">
               <div class="px-4 py-5 bg-white sm:p-6">
+                <SuccessAlert v-if="showGeneralSuccess" class="mb-4" @dismiss="showGeneralSuccess = false">
+                  Changes saved successfully.
+                </SuccessAlert>
+
                 <div class="grid grid-cols-3 gap-6">
                   <div class="col-span-3 sm:col-span-2">
                     <label for="name" class="block text-sm font-medium leading-5 text-gray-700">Name</label>
@@ -79,9 +83,60 @@
           </form>
         </div>
       </div>
+
+      <div class="hidden sm:block">
+        <div class="py-5">
+          <div class="border-t border-gray-200"></div>
+        </div>
+      </div>
+
+      <div class="mt-10 sm:mt-0">
+        <div class="md:grid md:grid-cols-3 md:gap-6">
+          <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+              <h3 class="text-lg font-medium leading-6 text-gray-900">Secret key</h3>
+              <p class="mt-1 text-sm leading-5 text-gray-500">
+                The secret key is a random token which must be specified as part of the "stream key" when connecting to the stream using a streaming software.<br>
+                <a
+                  href="#"
+                  class="inline-block mt-1 text-sm leading-5 text-indigo-600 hover:text-indigo-900 focus:outline-none focus:underline"
+                  @click.prevent="openStreamingCredentialsModal"
+                >
+                  Show streaming credentials
+                </a>
+              </p>
+            </div>
+          </div>
+          <div class="mt-5 md:mt-0 md:col-span-2">
+            <div class="shadow sm:rounded-md sm:overflow-hidden">
+              <div class="px-4 py-5 bg-white sm:p-6">
+                <SuccessAlert v-if="showKeySuccess" class="mb-4" @dismiss="showKeySuccess = false">
+                  Key regenerated successfully.
+                </SuccessAlert>
+                <span class="mb-2 block text-sm font-medium leading-5 text-gray-700">Key</span>
+                <CredentialsWrapper inline :value="stream.key" />
+              </div>
+              <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                <span class="inline-flex rounded-md shadow-sm">
+                  <button
+                    type="button"
+                    class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+                    @click="showRegenerateKeyDialog = true"
+                  >
+                    <fa-icon :icon="['fas', 'redo']" class="-ml-1 mr-2 h-5 w-5" />
+                    Regenerate secret key
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </PageWrapper>
 
     <DeleteStreamConfirmDialog v-model="showDeleteStreamDialog" @confirmed="deleteStream" />
+    <StreamingCredentialsModal v-model="showStreamingCredentialsModal" :stream="stream" />
+    <RegenerateKeyConfirmDialog v-model="showRegenerateKeyDialog" @confirmed="regenerateKey" />
   </div>
 </template>
 
@@ -94,10 +149,25 @@
   import BaseButton from 'ui/BaseButton'
   import DeleteStreamConfirmDialog from './DeleteStreamConfirmDialog'
   import Alert from 'ui/alerts/Alert'
+  import CredentialsWrapper from '../../../components/CredentialsWrapper'
+  import StreamingCredentialsModal from '../StreamingCredentialsModal'
+  import RegenerateKeyConfirmDialog from './RegenerateKeyConfirmDialog'
+  import SuccessAlert from 'ui/alerts/SuccessAlert'
 
   export default {
     name: 'StreamForm',
-    components: { Alert, DeleteStreamConfirmDialog, BaseButton, PageWrapper, PageTitle, PageHeader },
+    components: {
+      SuccessAlert,
+      RegenerateKeyConfirmDialog,
+      StreamingCredentialsModal,
+      CredentialsWrapper,
+      Alert,
+      DeleteStreamConfirmDialog,
+      BaseButton,
+      PageWrapper,
+      PageTitle,
+      PageHeader,
+    },
     props: {
       id: {
         required: true,
@@ -106,6 +176,10 @@
     data() {
       return {
         showDeleteStreamDialog: false,
+        showRegenerateKeyDialog: false,
+        showStreamingCredentialsModal: false,
+        showGeneralSuccess: false,
+        showKeySuccess: false,
       }
     },
     computed: {
@@ -121,13 +195,23 @@
     },
     methods: {
       ...mapActions('streams', ['update', 'delete']),
-      updateStream() {
+      async updateStream() {
+        this.showGeneralSuccess = false
         const { name, slug } = this.stream
-        this.update({ id: this.stream.id, data: { name, slug } })
+        await this.update({ id: this.stream.id, data: { name, slug } })
+        this.showGeneralSuccess = true
       },
       async deleteStream() {
         await this.delete(this.stream.id)
         this.goBack()
+      },
+      async regenerateKey() {
+        this.showKeySuccess = false
+        await this.$store.dispatch('streams/regenerateKey', this.stream.id)
+        this.showKeySuccess = true
+      },
+      openStreamingCredentialsModal() {
+        this.showStreamingCredentialsModal = true
       },
       goBack() {
         this.$router.push({ name: 'streams' })

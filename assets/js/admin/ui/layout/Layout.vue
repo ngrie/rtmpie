@@ -19,7 +19,7 @@
             <div class="ml-4 flex items-center md:ml-6">
               <div v-click-outside="closeUserMenu" class="ml-3 relative">
                 <div>
-                  <button @click="userMenuOpen = !userMenuOpen" class="max-w-xs flex items-center text-sm rounded-full text-white focus:outline-none" id="user-menu" aria-label="User menu" aria-haspopup="true" :aria-expanded="userMenuOpen">
+                  <button @click="userMenuOpen = !userMenuOpen" class="max-w-xs flex items-center text-sm rounded-full text-gray-200 focus:outline-none" id="user-menu" aria-label="User menu" aria-haspopup="true" :aria-expanded="userMenuOpen">
                     <fa-icon :icon="['far', 'user']" class="h-8 w-8" size="2x" />
                   </button>
                 </div>

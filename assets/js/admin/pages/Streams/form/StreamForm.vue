@@ -116,7 +116,7 @@
         return this.streamById(this.id)
       },
       rtmpPrefix() {
-        return getRtmpPrefix()
+        return `${getRtmpPrefix()}/`
       },
     },
     methods: {

@@ -6,26 +6,15 @@
     </template>
     <template #details>
       <div class="text-sm leading-loose text-gray-900">
-        <div class="bg-gray-200 inline p-2 rounded">
-          <input ref="streamUrl" type="text" :value="streamUrl" class="sr-only whitespace-pre-wrap" area-hidden />
-          <pre class="inline">{{ streamUrl }}</pre>
-          <fa-icon
-            :icon="['fas', 'clipboard']"
-            size="lg"
-            class="text-gray-600 ml-1 hover:text-gray-900 cursor-pointer"
-            title="Copy to clipboard"
-            @click="copyStreamUrl"
-          />
-        </div>
+        <CredentialsWrapper inline :value="streamUrl" />
       </div>
       <div class="mt-2 flex items-center text-sm leading-5 text-gray-500">
-        <input ref="streamKey" type="text" :value="streamKey" class="sr-only whitespace-pre-wrap" area-hidden />
         <a
           href="#"
           class="text-sm leading-5 text-indigo-600 hover:text-indigo-900 focus:outline-none focus:underline"
-          @click.prevent="copyStreamKey"
+          @click.prevent="openStreamingCredentialsModal"
         >
-          Copy stream key to clipboard
+          Show streaming credentials
         </a>
       </div>
     </template>
@@ -33,7 +22,7 @@
       <router-link :to="{ name: 'stream', params: { id: stream.id } }">Edit</router-link>
     </template>
 
-    <div class="text-sm leading-5 font-medium text-indigo-600 truncate">
+    <div class="text-sm leading-5 font-medium truncate">
       {{ stream.name }}
     </div>
     <div class="mt-2 flex items-center text-sm leading-5 text-gray-500">
@@ -44,6 +33,8 @@
         <span class="truncate">{{ stream.viewerCount }}</span>
       </template>
     </div>
+
+    <StreamingCredentialsModal v-model="showStreamingCredentialsModal" :stream="stream" />
   </StreamListItem>
 </template>
 
@@ -51,10 +42,12 @@
   import Badge from 'ui/Badge'
   import StreamListItem from 'ui/streamList/StreamListItem'
   import { getRtmpPrefix } from 'utils'
+  import StreamingCredentialsModal from './StreamingCredentialsModal'
+  import CredentialsWrapper from '../../components/CredentialsWrapper'
 
   export default {
     name: 'StreamItem',
-    components: { StreamListItem, Badge },
+    components: { CredentialsWrapper, StreamingCredentialsModal, StreamListItem, Badge },
     props: {
       stream: {
         type: Object,
@@ -63,22 +56,22 @@
       thumbnailUrl: String,
       first: Boolean,
     },
+    data() {
+      return {
+        showStreamingCredentialsModal: false,
+      }
+    },
     computed: {
       streamUrl() {
-        return getRtmpPrefix() + this.stream.slug
+        return `${getRtmpPrefix()}/${this.stream.slug}`
       },
       streamKey() {
         return `${this.stream.slug}?key=${this.stream.key}`
       },
     },
     methods: {
-      copyStreamUrl() {
-        this.$refs.streamUrl.select()
-        document.execCommand('copy')
-      },
-      copyStreamKey() {
-        this.$refs.streamKey.select()
-        document.execCommand('copy')
+      openStreamingCredentialsModal() {
+        this.showStreamingCredentialsModal = true
       },
     },
   }

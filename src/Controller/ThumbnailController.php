@@ -19,11 +19,13 @@ class ThumbnailController extends AbstractController
 {
     private StreamRepository $streamRepository;
     private HttpClientInterface $httpClient;
+    private string $rtmpThumbnailsBaseUrl;
 
-    public function __construct(StreamRepository $streamRepository, HttpClientInterface $httpClient)
+    public function __construct(StreamRepository $streamRepository, HttpClientInterface $httpClient, string $rtmpThumbnailsBaseUrl)
     {
         $this->streamRepository = $streamRepository;
         $this->httpClient = $httpClient;
+        $this->rtmpThumbnailsBaseUrl = $rtmpThumbnailsBaseUrl;
     }
 
     /**
@@ -60,8 +62,7 @@ class ThumbnailController extends AbstractController
 
     private function getImage(Stream $stream)
     {
-        // TODO: URL
-        $file = $this->httpClient->request('GET', 'http://127.0.0.1:8081/' . $stream->getSlug() . '.png');
+        $file = $this->httpClient->request('GET', $this->rtmpThumbnailsBaseUrl . $stream->getSlug() . '.png');
         if ($file->getStatusCode() !== 200) {
             return null;
         }

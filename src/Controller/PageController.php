@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,16 +17,19 @@ class PageController extends AbstractController
      */
     public function admin(Request $request)
     {
+        $baseUrl = $this->generateUrl('home', [], UrlGeneratorInterface::ABS_URL);
+
         return $this->render('admin.html.twig', [
             'config' => [
                 'host' => $request->getHost(),
-                'sseHost' => 'http://127.0.0.1:8008/.well-known/mercure', // TODO
+                'baseUrl' => $baseUrl,
+                'sseHost' => $baseUrl . '.well-known/mercure',
             ],
         ]);
     }
 
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      */
     public function adminRedirect()
     {

@@ -22,6 +22,7 @@
     </PageWrapper>
 
     <AddStreamModal v-model="addModalOpen" />
+    <!-- TODO: show this on the form page too -->
     <SseConnectionErrorNotification v-model="sseErrorNotification" />
   </div>
 </template>

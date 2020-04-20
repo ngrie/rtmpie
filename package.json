@@ -28,7 +28,7 @@
         "dev-server": "encore dev-server --hot",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "NODE_ENV=production encore production --progress"
+        "build": "NODE_ENV=production encore production"
     },
     "browserslist": [
         "defaults"

@@ -50,7 +50,7 @@ const createStreamsModule = () => ({
       const url = new URL(config('sseHost'));
       url.searchParams.append('topic', '/api/streams/{id}');
       // TODO: this is necessary to catch updates triggered by API Platform
-      url.searchParams.append('topic', 'http://127.0.0.1:8000/api/streams/{id}');
+      url.searchParams.append('topic', `${config('baseUrl')}api/streams/{id}`);
       const eventSource = new EventSource(url);
       eventSource.onmessage = ({ data }) => commit('addOrUpdate', JSON.parse(data))
       eventSource.onerror = () => {

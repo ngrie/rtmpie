@@ -1,3 +1,7 @@
+# This Docker setup is meant to be used during development.
+# It is not recommended to use this file for running the
+# project in production.
+
 version: '3'
 
 services:

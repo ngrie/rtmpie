@@ -55,8 +55,7 @@ COPY --from=frontend-builder /app/public/build /var/www/public/build
 
 WORKDIR /var/www
 
-RUN mkdir -p var/cache var/log; \
-    chown -R www-data:www-data var
+RUN mkdir -p var/cache var/log
 
 ENV APP_ENV prod
 ENV SYMFONY_ENV prod
@@ -69,6 +68,10 @@ RUN composer install --prefer-dist --no-dev --no-progress --no-suggest --no-inte
 
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
+
+RUN chown -R www-data:www-data .
+
+USER www-data
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]

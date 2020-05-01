@@ -167,6 +167,7 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex'
+  import notificationMixin from 'mixins/notification'
   import { generateErrorMessageFromResponse, getRtmpPrefix } from 'utils'
   import PageHeader from 'ui/layout/PageHeader'
   import PageTitle from 'ui/layout/PageTitle'
@@ -182,6 +183,7 @@
 
   export default {
     name: 'StreamForm',
+    mixins: [notificationMixin],
     components: {
       SseConnectionErrorNotification,
       StatusAlert,
@@ -257,8 +259,12 @@
         }
       },
       async deleteStream() {
-        await this.delete(this.stream.id)
-        this.goBack()
+        try {
+          await this.delete(this.stream.id)
+          this.goBack()
+        } catch ({ response }) {
+          this.showErrorNotification(generateErrorMessageFromResponse('Stream could not be deleted.', response))
+        }
       },
       async regenerateKey() {
         this.keyAlert = null

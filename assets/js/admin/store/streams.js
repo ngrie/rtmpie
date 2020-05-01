@@ -97,6 +97,12 @@ const createStreamsModule = () => ({
           dispatch('fetch')
         })
     },
+    dropPublisher({ dispatch }, payload) {
+      return api.post('drop_stream_publisher_requests', payload)
+        .then(() => {
+          dispatch('fetch')
+        })
+    },
   },
 })
 

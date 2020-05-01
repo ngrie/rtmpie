@@ -16,13 +16,33 @@
 <script>
   export default {
     name: 'BaseButton',
-    props: ['icon', 'buttonClass', 'color'],
+    props: {
+      icon: {},
+      buttonClass: {},
+      color: {},
+      secondary: Boolean,
+    },
     computed: {
       classes() {
         let classes = []
         if (this.buttonClass) {
           classes = Array.isArray(this.buttonClass) ? this.buttonClass : [this.buttonClass]
         }
+
+        if (this.isDisabled) {
+          classes.push('opacity-50', 'cursor-not-allowed')
+        }
+
+        if (this.secondary) {
+          classes.push(...this.secondaryClasses)
+        } else {
+          classes.push(...this.defaultClasses)
+        }
+
+        return classes
+      },
+      defaultClasses() {
+        let classes = []
 
         switch (this.color) {
           case 'primary':
@@ -38,8 +58,23 @@
             if (!this.isDisabled) classes.push('hover:text-gray-500')
         }
 
-        if (this.isDisabled) {
-          classes.push('opacity-50', 'cursor-not-allowed')
+        return classes
+      },
+      secondaryClasses() {
+        let classes = []
+
+        switch (this.color) {
+          case 'primary':
+            classes.push('text-indigo-700 bg-indigo-100 focus:border-indigo-300 active:bg-indigo-200')
+            if (!this.isDisabled) classes.push('hover:bg-indigo-50')
+            break;
+          case 'red':
+            classes.push('text-red-700 bg-red-100 focus:border-red-300 active:bg-red-200')
+            if (!this.isDisabled) classes.push('hover:bg-red-50')
+            break;
+          default:
+            classes.push('border-gray-300 bg-white text-gray-700 focus:border-blue-300')
+            if (!this.isDisabled) classes.push('hover:text-gray-500')
         }
 
         return classes

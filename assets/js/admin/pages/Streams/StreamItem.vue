@@ -31,23 +31,37 @@
       <template v-if="stream.live">
         <fa-icon :icon="['far', 'eye']" size="lg" class="flex-shrink-0 ml-4 mr-1.5 h-5 w-5 text-gray-400" />
         <span class="truncate">{{ stream.viewerCount }}</span>
+        <a
+          href="#"
+          class="ml-4 text-sm leading-5 font-medium text-indigo-600 hover:text-indigo-900 focus:outline-none focus:underline"
+          @click.prevent="showDropPublisherModal = true"
+        >
+          Drop publisher
+        </a>
       </template>
     </div>
 
     <StreamingCredentialsModal v-model="showStreamingCredentialsModal" :stream="stream" />
+    <DropPublisherConfirmDialog
+      v-model="showDropPublisherModal"
+      @confirmed="dropPublisher"
+      @confirmedWithRegeneratingKey="dropPublisherAndRegenKey"
+    />
   </StreamListItem>
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
   import Badge from 'ui/Badge'
   import StreamListItem from 'ui/streamList/StreamListItem'
   import { getRtmpPrefix } from 'utils'
   import StreamingCredentialsModal from './StreamingCredentialsModal'
   import CredentialsWrapper from '../../components/CredentialsWrapper'
+  import DropPublisherConfirmDialog from './DropPublisherConfirmDialog'
 
   export default {
     name: 'StreamItem',
-    components: { CredentialsWrapper, StreamingCredentialsModal, StreamListItem, Badge },
+    components: { DropPublisherConfirmDialog, CredentialsWrapper, StreamingCredentialsModal, StreamListItem, Badge },
     props: {
       stream: {
         type: Object,
@@ -59,6 +73,7 @@
     data() {
       return {
         showStreamingCredentialsModal: false,
+        showDropPublisherModal: false,
       }
     },
     computed: {
@@ -70,8 +85,17 @@
       },
     },
     methods: {
+      ...mapActions('streams', {
+        dropPublisherRequest: 'dropPublisher',
+      }),
       openStreamingCredentialsModal() {
         this.showStreamingCredentialsModal = true
+      },
+      async dropPublisher() {
+        await this.dropPublisherRequest({ streamId: this.stream.id, regenerateStreamKey: false })
+      },
+      async dropPublisherAndRegenKey() {
+        await this.dropPublisherRequest({ streamId: this.stream.id, regenerateStreamKey: true })
       },
     },
   }

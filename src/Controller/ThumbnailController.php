@@ -29,7 +29,7 @@ class ThumbnailController extends AbstractController
     }
 
     /**
-     * @Route("/")
+     * @Route("")
      */
     public function list()
     {

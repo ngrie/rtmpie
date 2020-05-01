@@ -22,8 +22,7 @@
     </PageWrapper>
 
     <AddStreamModal v-model="addModalOpen" />
-    <!-- TODO: show this on the form page too -->
-    <SseConnectionErrorNotification v-model="sseErrorNotification" />
+    <SseConnectionErrorNotification />
   </div>
 </template>
 
@@ -53,7 +52,6 @@
     data() {
       return {
         addModalOpen: false,
-        sseErrorNotification: false,
         thumbnailInterval: null,
       }
     },
@@ -62,18 +60,7 @@
         streams: 'all',
         liveStreams: 'liveStreams',
         thumbnailById: 'thumbnailById',
-        hasSseError: 'hasSseError',
       }),
-    },
-    watch: {
-      hasSseError: {
-        handler(val) {
-          if (val) {
-            this.sseErrorNotification = true
-          }
-        },
-        immediate: true,
-      },
     },
     mounted() {
       this.thumbnailInterval = setInterval(() => {

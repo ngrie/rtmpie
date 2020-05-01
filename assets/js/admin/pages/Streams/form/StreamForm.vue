@@ -159,6 +159,8 @@
     <DeleteStreamConfirmDialog v-model="showDeleteStreamDialog" @confirmed="deleteStream" />
     <StreamingCredentialsModal v-model="showStreamingCredentialsModal" :stream="stream" />
     <RegenerateKeyConfirmDialog v-model="showRegenerateKeyDialog" @confirmed="regenerateKey" />
+
+    <SseConnectionErrorNotification />
   </div>
 </template>
 
@@ -175,10 +177,12 @@
   import StreamingCredentialsModal from '../StreamingCredentialsModal'
   import RegenerateKeyConfirmDialog from './RegenerateKeyConfirmDialog'
   import StatusAlert from 'ui/alerts/StatusAlert'
+  import SseConnectionErrorNotification from '../SseConnectionErrorNotification'
 
   export default {
     name: 'StreamForm',
     components: {
+      SseConnectionErrorNotification,
       StatusAlert,
       RegenerateKeyConfirmDialog,
       StreamingCredentialsModal,

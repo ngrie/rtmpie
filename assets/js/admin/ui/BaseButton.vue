@@ -26,17 +26,27 @@
 
         switch (this.color) {
           case 'primary':
-            classes.push('text-white bg-indigo-600 hover:bg-indigo-500 focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700')
+            classes.push('text-white bg-indigo-600 focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700')
+            if (!this.isDisabled) classes.push('hover:bg-indigo-500')
             break;
             case 'red':
-              classes.push('bg-red-600 text-white hover:bg-red-500 focus:border-red-700 focus:shadow-outline-red')
+              classes.push('bg-red-600 text-white focus:border-red-700 focus:shadow-outline-red')
+              if (!this.isDisabled) classes.push('hover:bg-red-500')
               break;
           default:
-            classes.push('border-gray-300 bg-white text-gray-700 hover:text-gray-500 focus:border-blue-300')
+            classes.push('border-gray-300 bg-white text-gray-700 focus:border-blue-300')
+            if (!this.isDisabled) classes.push('hover:text-gray-500')
+        }
+
+        if (this.isDisabled) {
+          classes.push('opacity-50', 'cursor-not-allowed')
         }
 
         return classes
       },
+      isDisabled() {
+        return this.$attrs.disabled
+      }
     },
   }
 </script>

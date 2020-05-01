@@ -56,15 +56,17 @@
 
 <script>
   import { mapActions } from 'vuex'
+  import notificationMixin from 'mixins/notification'
   import Badge from 'ui/Badge'
   import StreamListItem from 'ui/streamList/StreamListItem'
-  import { getRtmpPrefix } from 'utils'
+  import { generateErrorMessageFromResponse, getRtmpPrefix } from 'utils'
   import StreamingCredentialsModal from './StreamingCredentialsModal'
   import CredentialsWrapper from '../../components/CredentialsWrapper'
   import DropPublisherConfirmDialog from './DropPublisherConfirmDialog'
 
   export default {
     name: 'StreamItem',
+    mixins: [notificationMixin],
     components: { DropPublisherConfirmDialog, CredentialsWrapper, StreamingCredentialsModal, StreamListItem, Badge },
     props: {
       stream: {
@@ -96,10 +98,18 @@
         this.showStreamingCredentialsModal = true
       },
       async dropPublisher() {
-        await this.dropPublisherRequest({ streamId: this.stream.id, regenerateStreamKey: false })
+        try {
+          await this.dropPublisherRequest({ streamId: this.stream.id, regenerateStreamKey: false })
+        } catch ({ response }) {
+          this.showErrorNotification(generateErrorMessageFromResponse('Publisher could not be kicked from the stream.', response))
+        }
       },
       async dropPublisherAndRegenKey() {
-        await this.dropPublisherRequest({ streamId: this.stream.id, regenerateStreamKey: true })
+        try {
+          await this.dropPublisherRequest({ streamId: this.stream.id, regenerateStreamKey: true })
+        } catch ({ response }) {
+          this.showErrorNotification(generateErrorMessageFromResponse('Publisher could not be kicked from the stream.', response))
+        }
       },
     },
   }

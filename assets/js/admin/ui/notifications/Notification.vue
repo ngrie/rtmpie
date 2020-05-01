@@ -7,8 +7,8 @@
     leave-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <div v-if="value" class="fixed inset-0 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6 sm:justify-end">
-      <div class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto">
+    <div v-if="value" class="fixed inset-0 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6" :class="{ 'sm:items-start': !bottom, 'sm:justify-end': right }">
+      <div class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto" :class="{ 'border-l-8 border-red-400': error }">
         <div class="rounded-lg shadow-xs overflow-hidden">
           <div class="p-4">
             <div class="flex items-start">
@@ -49,6 +49,9 @@
     name: 'Notification',
     props: {
       value: Boolean,
+      bottom: Boolean,
+      right: Boolean,
+      error: Boolean,
     },
   }
 </script>

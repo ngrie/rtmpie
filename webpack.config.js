@@ -15,6 +15,7 @@ Encore
     api: path.resolve(__dirname, 'assets/js/api'),
     utils: path.resolve(__dirname, 'assets/js/admin/utils'),
     ui: path.resolve(__dirname, 'assets/js/admin/ui'),
+    mixins: path.resolve(__dirname, 'assets/js/admin/mixins'),
   })
 
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

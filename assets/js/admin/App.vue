@@ -28,6 +28,8 @@
     </template>
 
     <router-view />
+
+    <GenericErrorNotification />
   </Layout>
   <router-view v-else />
 </template>
@@ -37,6 +39,7 @@
   import Layout from './ui/layout/Layout'
   import NavigationItem from './ui/layout/NavigationItem'
   import MobileNavigationItem from './ui/layout/MobileNavigationItem'
+  import GenericErrorNotification from './components/GenericErrorNotification'
 
   const navItems = [
     // { to: '/', label: 'Dashboard', exact: true },
@@ -47,7 +50,7 @@
   export default {
     name: 'App',
     navItems,
-    components: { MobileNavigationItem, NavigationItem, Layout },
+    components: { GenericErrorNotification, MobileNavigationItem, NavigationItem, Layout },
     computed: {
       ...mapGetters('user', ['authenticated']),
     }

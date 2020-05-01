@@ -63,6 +63,7 @@ ENV APP_DEBUG 0
 ENV DATABASE_URL mysql://root:rtmpie@database:3306/rtmpie?serverVersion=mariadb-10.4.12
 ENV MERCURE_PUBLISH_URL http://mercure/.well-known/mercure
 ENV RTMP_THUMBNAILS_BASE_URL http://rtmp/thumbnails/
+ENV RTMP_CONTROL_MODULE_BASE_URL http://rtmp/control/
 
 RUN composer install --prefer-dist --no-dev --no-progress --no-suggest --no-interaction --optimize-autoloader
 

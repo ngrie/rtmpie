@@ -62,9 +62,12 @@
                     </p>
                   </template>
                 </Alert>
-                <SuccessAlert v-if="showGeneralSuccess" class="mb-4" @dismiss="showGeneralSuccess = false">
-                  Changes saved successfully.
-                </SuccessAlert>
+                <StatusAlert
+                  v-if="generalAlert"
+                  v-bind="generalAlert"
+                  class="mb-4"
+                  @dismiss="generalAlert = null"
+                />
 
                 <div class="grid grid-cols-3 gap-6">
                   <div class="col-span-3 sm:col-span-2">
@@ -131,9 +134,7 @@
           <div class="mt-5 md:mt-0 md:col-span-2">
             <div class="shadow sm:rounded-md sm:overflow-hidden">
               <div class="px-4 py-5 bg-white sm:p-6">
-                <SuccessAlert v-if="showKeySuccess" class="mb-4" @dismiss="showKeySuccess = false">
-                  Key regenerated successfully.
-                </SuccessAlert>
+                <StatusAlert v-if="keyAlert" v-bind="keyAlert" class="mb-4" @dismiss="keyAlert = null" />
                 <span class="mb-2 block text-sm font-medium leading-5 text-gray-700">Key</span>
                 <CredentialsWrapper inline :value="stream.key" />
               </div>
@@ -163,7 +164,7 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex'
-  import { getRtmpPrefix } from 'utils'
+  import { generateErrorMessageFromResponse, getRtmpPrefix } from 'utils'
   import PageHeader from 'ui/layout/PageHeader'
   import PageTitle from 'ui/layout/PageTitle'
   import PageWrapper from 'ui/layout/PageWrapper'
@@ -173,12 +174,12 @@
   import CredentialsWrapper from '../../../components/CredentialsWrapper'
   import StreamingCredentialsModal from '../StreamingCredentialsModal'
   import RegenerateKeyConfirmDialog from './RegenerateKeyConfirmDialog'
-  import SuccessAlert from 'ui/alerts/SuccessAlert'
+  import StatusAlert from 'ui/alerts/StatusAlert'
 
   export default {
     name: 'StreamForm',
     components: {
-      SuccessAlert,
+      StatusAlert,
       RegenerateKeyConfirmDialog,
       StreamingCredentialsModal,
       CredentialsWrapper,
@@ -204,8 +205,8 @@
         showDeleteStreamDialog: false,
         showRegenerateKeyDialog: false,
         showStreamingCredentialsModal: false,
-        showGeneralSuccess: false,
-        showKeySuccess: false,
+        generalAlert: null,
+        keyAlert: null,
         dataChanged: false,
       }
     },
@@ -238,19 +239,33 @@
     methods: {
       ...mapActions('streams', ['update', 'delete']),
       async updateStream() {
-        this.showGeneralSuccess = false
+        this.generalAlert = null
         const { name, slug } = this.form
-        await this.update({ id: this.stream.id, data: { name, slug } })
-        this.showGeneralSuccess = true
+        try {
+          await this.update({ id: this.stream.id, data: { name, slug } })
+          this.generalAlert = { type: 'success', message: 'Changes saved successfully.' }
+        } catch ({ response }) {
+          this.generalAlert = {
+            type: 'error',
+            message: generateErrorMessageFromResponse('An error occurred.', response),
+          }
+        }
       },
       async deleteStream() {
         await this.delete(this.stream.id)
         this.goBack()
       },
       async regenerateKey() {
-        this.showKeySuccess = false
-        await this.$store.dispatch('streams/regenerateKey', this.stream.id)
-        this.showKeySuccess = true
+        this.keyAlert = null
+        try {
+          await this.$store.dispatch('streams/regenerateKey', this.stream.id)
+          this.keyAlert = { type: 'success', message: 'Key regenerated successfully.' }
+        } catch ({ response }) {
+          this.keyAlert = {
+            type: 'error',
+            message: generateErrorMessageFromResponse('An error occurred.', response),
+          }
+        }
       },
       updateForm() {
         this.form.name = this.stream.name

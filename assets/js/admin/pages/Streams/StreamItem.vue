@@ -1,7 +1,11 @@
 <template>
   <StreamListItem :first="first">
     <template #image>
-      <img v-if="thumbnailUrl" class="h-16 w-20 object-cover rounded shadow" :src="thumbnailUrl" alt="" />
+      <img
+        v-if="stream.live && thumbnailUrl"
+        class="h-16 w-20 object-cover rounded shadow"
+        :src="thumbnailUrl" alt=""
+      />
       <div v-else class="border-4 border-dashed border-gray-200 rounded-lg h-16 w-20"></div>
     </template>
     <template #details>

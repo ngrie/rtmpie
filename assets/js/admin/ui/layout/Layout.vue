@@ -17,7 +17,7 @@
             <div class="ml-4 flex items-center md:ml-6">
               <div v-click-outside="closeUserMenu" class="ml-3 relative">
                 <div>
-                  <button @click="userMenuOpen = !userMenuOpen" class="max-w-xs flex items-center text-sm rounded-full text-gray-200 focus:outline-none" id="user-menu" aria-label="User menu" aria-haspopup="true" :aria-expanded="userMenuOpen">
+                  <button @click="userMenuOpen = !userMenuOpen" class="max-w-xs flex items-center text-sm text-gray-200 focus:outline-none" id="user-menu" aria-label="User menu" aria-haspopup="true" :aria-expanded="userMenuOpen">
                     <fa-icon :icon="['far', 'user']" class="h-8 w-8" size="2x" />
                   </button>
                 </div>
@@ -70,7 +70,12 @@
             </div>
           </div>
           <div class="mt-3 px-2" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-            <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" role="menuitem">User settings</a>
+            <router-link
+              :to="{ name: 'user_settings' }"
+              class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"
+            >
+              Personal settings
+            </router-link>
             <a href="/logout" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" role="menuitem">Sign out</a>
           </div>
         </div>

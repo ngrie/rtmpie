@@ -45,7 +45,10 @@ Encore
 
   .enablePostCssLoader()
 
-  .enableVueLoader()
+  .enableVueLoader(
+    () => {},
+    { runtimeCompilerBuild: false },
+  )
 ;
 
 module.exports = Encore.getWebpackConfig();

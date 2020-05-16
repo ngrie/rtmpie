@@ -13,7 +13,7 @@
         "lodash": "^4.17.15",
         "postcss-loader": "^3.0.0",
         "regenerator-runtime": "^0.13.2",
-        "tailwindcss": "^1.2.0",
+        "tailwindcss": "^1.4.6",
         "v-click-outside": "^3.0.1",
         "vue": "^2.6.11",
         "vue-loader": "^15.9.1",

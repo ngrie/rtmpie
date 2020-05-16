@@ -12,4 +12,13 @@ module.exports = {
   plugins: [
     require('@tailwindcss/ui'),
   ],
+  purge: {
+    content: [
+      './assets/js/admin/**/*.vue',
+    ],
+    options: {
+      // https://tailwindui.com/documentation#update-your-purgecss-configuration
+      defaultExtractor: content => content.match(/[\w-/.:]+(?<!:)/g) || [],
+    },
+  },
 }

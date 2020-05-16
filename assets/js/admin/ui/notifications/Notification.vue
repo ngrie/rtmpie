@@ -1,8 +1,8 @@
 <template>
   <transition
     enter-active-class="transform ease-out duration-300 transition"
-    enter-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-    enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
+    :enter-class="enterClass"
+    :enter-to-class="enterToClass"
     leave-active-class="transition ease-in duration-100"
     leave-class="opacity-100"
     leave-to-class="opacity-0"
@@ -52,6 +52,28 @@
       bottom: Boolean,
       right: Boolean,
       error: Boolean,
+    },
+    computed: {
+      enterClass() {
+        const classes = 'translate-y-2 opacity-0'
+
+        // compute transition direction based on the notification's position
+        if (!this.right) {
+          return `${classes} sm:-translate-y-2`
+        }
+
+        return `${classes} sm:translate-y-0 sm:translate-x-2`
+      },
+      enterToClass() {
+        const classes = 'translate-y-0 opacity-100'
+
+        // compute transition direction based on the notification's position
+        if (!this.right) {
+          return `${classes} sm:translate-y-0`
+        }
+
+        return `${classes} sm:translate-x-0`
+      },
     },
   }
 </script>

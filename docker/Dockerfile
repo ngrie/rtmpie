@@ -65,7 +65,9 @@ ENV MERCURE_PUBLISH_URL http://mercure/.well-known/mercure
 ENV RTMP_THUMBNAILS_BASE_URL http://rtmp/thumbnails/
 ENV RTMP_CONTROL_MODULE_BASE_URL http://rtmp/control/
 
-RUN composer install --prefer-dist --no-dev --no-progress --no-suggest --no-interaction --optimize-autoloader
+RUN composer install --prefer-dist --no-dev --no-progress --no-suggest --no-interaction --optimize-autoloader; \
+    composer dump-autoload --no-dev --classmap-authoritative; \
+    composer dump-env prod
 
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint

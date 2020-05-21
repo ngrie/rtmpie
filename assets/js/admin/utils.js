@@ -16,8 +16,11 @@ const generateErrorMessageFromResponse = (message, response) => {
   return `${message} (Error code ${response.status})`
 }
 
+const getIdFromIri = (iri) => parseInt(iri.split('/').pop())
+
 export {
   config,
   getRtmpPrefix,
   generateErrorMessageFromResponse,
+  getIdFromIri,
 }

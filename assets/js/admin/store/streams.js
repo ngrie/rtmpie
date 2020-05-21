@@ -1,6 +1,6 @@
 import { sortBy } from 'lodash'
 import api from 'api'
-import { config } from 'utils'
+import { config, getIdFromIri } from 'utils'
 
 const byStatusAndName = [({ live }) => !live, ({ name }) => name.toLowerCase()]
 
@@ -27,7 +27,12 @@ const createStreamsModule = () => ({
     },
     addOrUpdate(state, data) {
       if (JSON.stringify(Object.keys(data)) === '["@id"]') {
-        // Resource was deleted by API Platform, ignore
+        // Resource was deleted
+        const deleteId = getIdFromIri(data['@id'])
+        const index = state.streams.findIndex(({ id }) => id === deleteId)
+        if (index >= 0) {
+          state.streams.splice(index, 1)
+        }
         return
       }
 

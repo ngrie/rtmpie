@@ -7,11 +7,13 @@ const byStatusAndName = [({ live }) => !live, ({ name }) => name.toLowerCase()]
 const createStreamsModule = () => ({
   namespaced: true,
   state: {
+    initialized: false,
     streams: [],
     thumbnails: {},
     hasSseError: false,
   },
   getters: {
+    initialized: ({ initialized }) => initialized,
     all: ({ streams }) => sortBy(streams, byStatusAndName),
     byId: (state, { all }) => id => all.find((stream) => stream.id === parseInt(id, 10)) || null,
     liveStreams: (state, { all }) => all.filter(({ live }) => live),
@@ -19,6 +21,9 @@ const createStreamsModule = () => ({
     hasSseError: ({ hasSseError }) => hasSseError,
   },
   mutations: {
+    setInitialized(state) {
+      state.initialized = true
+    },
     setStreams(state, streams) {
       state.streams = streams
     },
@@ -67,6 +72,7 @@ const createStreamsModule = () => ({
       return api('streams')
         .then(({ data }) => {
           commit('setStreams', data)
+          commit('setInitialized')
           return data
         })
     },

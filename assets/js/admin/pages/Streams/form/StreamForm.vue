@@ -163,6 +163,7 @@
 
     <SseConnectionErrorNotification />
   </div>
+  <StreamNotFound v-else-if="initialized" />
 </template>
 
 <script>
@@ -180,11 +181,13 @@
   import RegenerateKeyConfirmDialog from './RegenerateKeyConfirmDialog'
   import StatusAlert from 'ui/alerts/StatusAlert'
   import SseConnectionErrorNotification from '../SseConnectionErrorNotification'
+  import StreamNotFound from './StreamNotFound'
 
   export default {
     name: 'StreamForm',
     mixins: [notificationMixin],
     components: {
+      StreamNotFound,
       SseConnectionErrorNotification,
       StatusAlert,
       RegenerateKeyConfirmDialog,
@@ -219,6 +222,7 @@
     },
     computed: {
       ...mapGetters('streams', {
+        initialized: 'initialized',
         streamById: 'byId',
       }),
       stream() {

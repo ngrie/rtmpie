@@ -37,7 +37,7 @@
         <span class="truncate">{{ stream.viewerCount }}</span>
         <a
           href="#"
-          class="ml-4 text-sm leading-5 font-medium text-indigo-600 hover:text-indigo-900 focus:outline-none focus:underline"
+          class="hidden sm:inline-flex ml-4 text-sm leading-5 font-medium text-indigo-600 hover:text-indigo-900 focus:outline-none focus:underline"
           @click.prevent="showDropPublisherModal = true"
         >
           Drop publisher

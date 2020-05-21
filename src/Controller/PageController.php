@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PageController extends AbstractController
 {
@@ -17,7 +17,7 @@ class PageController extends AbstractController
      */
     public function admin(Request $request)
     {
-        $baseUrl = $this->generateUrl('home', [], UrlGeneratorInterface::ABS_URL);
+        $baseUrl = $this->generateUrl('home', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
         return $this->render('admin.html.twig', [
             'config' => [

@@ -1,12 +1,22 @@
 <template>
   <StreamListItem :first="first">
     <template #image>
-      <img
-        v-if="stream.live && thumbnailUrl"
-        class="h-16 w-20 object-cover rounded shadow"
-        :src="thumbnailUrl" alt=""
-      />
-      <div v-else class="border-4 border-dashed border-gray-200 rounded-lg h-16 w-20"></div>
+      <div class="relative group">
+        <img
+          v-if="stream.live && thumbnailUrl"
+          class="h-16 w-20 object-cover rounded shadow"
+          :src="thumbnailUrl" alt=""
+        />
+        <div v-else class="border-4 border-dashed border-gray-200 rounded-lg h-16 w-20"></div>
+        <div
+          v-if="stream.live"
+          class="hidden absolute top-0 left-0 group-hover:flex items-center justify-center w-full h-full cursor-pointer rounded"
+          :class="{ 'hover:bg-white hover:bg-opacity-50': thumbnailUrl }"
+          @click="openStreamPlayer"
+        >
+          <fa-icon :icon="['fas', 'play']" />
+        </div>
+      </div>
     </template>
     <template #details>
       <div class="text-sm leading-loose text-gray-900">
@@ -59,7 +69,7 @@
   import notificationMixin from 'mixins/notification'
   import Badge from 'ui/Badge'
   import StreamListItem from 'ui/streamList/StreamListItem'
-  import { generateErrorMessageFromResponse, getRtmpPrefix } from 'utils'
+  import { config, generateErrorMessageFromResponse, getRtmpPrefix } from 'utils'
   import StreamingCredentialsModal from './StreamingCredentialsModal'
   import CredentialsWrapper from '../../components/CredentialsWrapper'
   import DropPublisherConfirmDialog from './DropPublisherConfirmDialog'
@@ -110,6 +120,13 @@
         } catch ({ response }) {
           this.showErrorNotification(generateErrorMessageFromResponse('Publisher could not be kicked from the stream.', response))
         }
+      },
+      openStreamPlayer() {
+        window.open(
+          config('baseUrl') + 'play/' + this.stream.slug,
+          '_blank',
+          'width=900,height=500,toolbar=0,location=0,menubar=0',
+        )
       },
     },
   }

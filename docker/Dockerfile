@@ -64,6 +64,7 @@ ENV DATABASE_URL mysql://root:rtmpie@database:3306/rtmpie?serverVersion=mariadb-
 ENV MERCURE_PUBLISH_URL http://mercure/.well-known/mercure
 ENV RTMP_THUMBNAILS_BASE_URL http://rtmp/thumbnails/
 ENV RTMP_CONTROL_MODULE_BASE_URL http://rtmp/control/
+ENV RTMP_HTTP_FLV_BASE_URL /live
 
 RUN composer install --prefer-dist --no-dev --no-progress --no-suggest --no-interaction --optimize-autoloader; \
     composer dump-autoload --no-dev --classmap-authoritative; \

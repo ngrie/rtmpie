@@ -8,13 +8,16 @@ module.exports = {
       },
     },
   },
-  variants: {},
+  variants: {
+    display: ['responsive', 'group-hover'],
+  },
   plugins: [
     require('@tailwindcss/ui'),
   ],
   purge: {
     content: [
       './assets/js/admin/**/*.vue',
+      './templates/**/*.html.twig',
     ],
     options: {
       // https://tailwindui.com/documentation#update-your-purgecss-configuration

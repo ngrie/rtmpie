@@ -10,6 +10,7 @@ Encore
   .setPublicPath('/build')
 
   .addEntry('admin', './assets/js/admin/index.js')
+  .addEntry('publicPlayer', './assets/js/publicPlayer.js')
 
   .addAliases({
     api: path.resolve(__dirname, 'assets/js/api'),

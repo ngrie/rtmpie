@@ -31,8 +31,7 @@ class EntityPublisher
         $iri = $this->iriConverter->getIriFromItem($entity);
         $update = new Update(
             $iri,
-            $this->serializer->serialize($entity, 'json', ['groups' => ['read']]),
-            [] // TODO
+            $this->serializer->serialize($entity, 'json', ['groups' => ['read']])
         );
         ($this->publisher)($update);
     }

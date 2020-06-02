@@ -9,6 +9,7 @@ import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faRedo } from '@fortawesome/free-solid-svg-icons'
+import { faPlay } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faUser,
@@ -20,4 +21,5 @@ library.add(
   faChevronLeft,
   faTrash,
   faRedo,
+  faPlay,
 )

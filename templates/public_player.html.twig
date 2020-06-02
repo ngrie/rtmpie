@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Stream Player</title>
+
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
+    {{ encore_entry_link_tags('publicPlayer') }}
+</head>
+<body>
+<div id="buttonWrapper" class="h-screen flex items-center justify-center text-lg text-gray-700">
+    <button type="button" id="playButton" class="flex flex-col items-center uppercase font-semibold tracking-wide p-4">
+        <span id="buttonIcon"></span>
+        Play stream
+    </button>
+</div>
+
+<script type="text/javascript">
+    var stream_url = '{{ url|raw }}';
+</script>
+{{ encore_entry_script_tags('publicPlayer') }}
+</body>
+</html>
+
+{# The following Tailwind classes are used in publicPlayer.js, add them here to #}
+{# make sure they are included when running PurgeCSS: #}
+{# w-screen h-screen #}

@@ -92,11 +92,11 @@
     "doctrine/reflection": {
         "version": "1.2.1"
     },
-    "fig/link-util": {
+    "doctrine/sql-formatter": {
         "version": "1.1.0"
     },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
+    "fig/link-util": {
+        "version": "1.1.0"
     },
     "laminas/laminas-code": {
         "version": "3.4.1"
@@ -357,6 +357,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.15.0"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.17.0"
     },
     "symfony/polyfill-uuid": {
         "version": "v1.15.0"

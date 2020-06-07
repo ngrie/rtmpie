@@ -28,4 +28,5 @@ RTMPie was built using the following projects:
 
 - [nginx-http-flv-module](https://github.com/winshining/nginx-http-flv-module) (thanks to [arut](https://github.com/arut) for creating the original module and [winshining](https://github.com/winshining) for maintaining the further developed fork)
 - [Symfony](https://symfony.com) and [API Platform](https://api-platform.com)
+- [Vue.js](https://vuejs.org)
 - [Tailwind CSS](https://tailwindcss.com) and [Tailwind UI](https://tailwindui.com)

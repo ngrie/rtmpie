@@ -4,7 +4,7 @@
         "@fortawesome/free-regular-svg-icons": "^5.13.0",
         "@fortawesome/free-solid-svg-icons": "^5.13.0",
         "@fortawesome/vue-fontawesome": "^0.1.9",
-        "@symfony/webpack-encore": "^0.30.2",
+        "@symfony/webpack-encore": "^0.32.0",
         "@tailwindcss/ui": "^0.3.0",
         "autoprefixer": "^9.7.6",
         "axios": "^0.19.2",
@@ -32,5 +32,6 @@
     },
     "browserslist": [
         "defaults"
-    ]
+    ],
+    "name": "rtmpie"
 }

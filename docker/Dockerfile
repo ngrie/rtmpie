@@ -46,7 +46,7 @@ RUN set -eux; \
     apk add --no-cache --virtual .api-phpexts-rundeps $runDeps; \
     apk del .build-deps
 
-COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY docker/php/conf.d/php.ini $PHP_INI_DIR/conf.d/rtmpie.ini
 

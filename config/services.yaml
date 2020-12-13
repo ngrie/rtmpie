@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    container.dumper.inline_factories: true
+
     rtmp_thumbnails_base_url: '%env(resolve:RTMP_THUMBNAILS_BASE_URL)%'
     rtmp_control_module_base_url: '%env(resolve:RTMP_CONTROL_MODULE_BASE_URL)%'
     rtmp_http_flv_base_url: '%env(resolve:RTMP_HTTP_FLV_BASE_URL)%'

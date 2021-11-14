@@ -18,9 +18,25 @@ RTMPie is a management web interface for the RTMP NGINX module.
 
 ## Installation
 
-The official installation method is using [Docker](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/).
+The official installation method is using [Docker](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/). Please install both tools according to their documentation.
 
-A detailed guide will be coming soon. For now you can refer to [this compose file](docker/docker-compose.prod.yaml) to create a setup yourself.
+If you want to make RTMPie available under a publicly accessible domain (e.g. demo.rtmpie.de), make sure to set up the necessary DNS settings before continuing.
+
+When Docker is installed, proceed with installing RTMPie:
+```bash
+mkdir /opt/rtmpie
+cd /opt/rtmpie
+
+# Download the small installer script
+wget https://raw.githubusercontent.com/ngrie/rtmpie/main/setup.sh
+bash setup.sh # Answer the questions
+
+# Run the docker setup
+docker-compose pull
+docker-compose up -d
+```
+
+The webinteface will be available after a few seconds and you can login using the default credentials `admin / admin`.
 
 ## Credits
 

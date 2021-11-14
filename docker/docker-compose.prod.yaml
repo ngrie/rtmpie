@@ -3,6 +3,7 @@ version: '3.4'
 services:
     php:
         image: ghcr.io/ngrie/rtmpie/php:latest
+        restart: unless-stopped
         environment:
             APP_SECRET: ${RTMPIE_APP_SECRET}
             DATABASE_URL: mysql://root:${RTMPIE_DATABASE_PASSWORD}@database:3306/rtmpie?serverVersion=mariadb-10.4.12
@@ -11,6 +12,7 @@ services:
 
     caddy:
         image: ghcr.io/ngrie/rtmpie/caddy:latest
+        restart: unless-stopped
         ports:
             - 80:80
             - 443:443
@@ -24,11 +26,13 @@ services:
 
     rtmp:
         image: ghcr.io/ngrie/rtmpie/rtmp:latest
+        restart: unless-stopped
         ports:
             - 1935:1935
 
     database:
         image: mariadb:10.4
+        restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: ${RTMPIE_DATABASE_PASSWORD}
             MYSQL_DATABASE: rtmpie

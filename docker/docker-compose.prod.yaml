@@ -7,6 +7,7 @@ services:
             APP_SECRET: ${RTMPIE_APP_SECRET}
             DATABASE_URL: mysql://root:${RTMPIE_DATABASE_PASSWORD}@database:3306/rtmpie?serverVersion=mariadb-10.4.12
             MERCURE_PUBLIC_URL: ${RTMPIE_HTTP_SCHEME}://${RTMPIE_HOSTNAME}/.well-known/mercure
+            MERCURE_JWT_SECRET: ${RTMPIE_MERCURE_JWT_KEY}
 
     caddy:
         image: ghcr.io/ngrie/rtmpie/caddy:latest
@@ -15,8 +16,8 @@ services:
             - 443:443
         environment:
             SERVER_NAME: ${RTMPIE_CADDY_SERVER_NAME}
-            MERCURE_PUBLISHER_JWT_KEY: ${RTMPIE_MERCURE_PUBLISHER_JWT_KEY}
-            MERCURE_SUBSCRIBER_JWT_KEY: ${RTMPIE_MERCURE_SUBSCRIBER_JWT_KEY}
+            MERCURE_PUBLISHER_JWT_KEY: ${RTMPIE_MERCURE_JWT_KEY}
+            MERCURE_SUBSCRIBER_JWT_KEY: ${RTMPIE_MERCURE_JWT_KEY}
         volumes:
             - mercure_data:/data
             - mercure_config:/config

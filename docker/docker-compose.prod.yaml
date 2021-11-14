@@ -7,15 +7,25 @@ services:
           context: ..
           dockerfile: docker/Dockerfile
           target: rtmpie-php
+        environment:
+            MERCURE_PUBLIC_URL: http://127.0.0.1/.well-known/mercure
 
-    nginx:
-        image: docker.pkg.github.com/ngrie/rtmpie/nginx:latest
+    caddy:
+        image: docker.pkg.github.com/ngrie/rtmpie/caddy:latest
         build:
             context: ..
             dockerfile: docker/Dockerfile
-            target: rtmpie-nginx
+            target: rtmpie-caddy
         ports:
-            - 8080:80
+            - 80:80
+            - 443:443
+        environment:
+            SERVER_NAME: ':80'
+            MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
+            MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+        volumes:
+            - mercure_data:/data
+            - mercure_config:/config
 
     rtmp:
         image: docker.pkg.github.com/ngrie/rtmpie/rtmp:latest
@@ -34,14 +44,7 @@ services:
         volumes:
             - database:/var/lib/mysql
 
-    mercure:
-        image: dunglas/mercure:v0.9
-        environment:
-            - ALLOW_ANONYMOUS=1
-            - CORS_ALLOWED_ORIGINS=*
-            - JWT_KEY=!ChangeMe!
-            - PUBLISH_ALLOWED_ORIGINS=*
-            - USE_FORWARDED_HEADERS=1
-
 volumes:
     database:
+    mercure_data:
+    mercure_config:

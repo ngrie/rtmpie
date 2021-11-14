@@ -8,25 +8,17 @@ use App\Entity\ChangePasswordRequest;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Security;
 
 class ChangePasswordRequestHandler implements MessageHandlerInterface
 {
-    private Security $security;
-    private UserPasswordEncoderInterface $passwordEncoder;
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        Security $security,
-        UserPasswordEncoderInterface $passwordEncoder,
-        EntityManagerInterface $entityManager
+        private Security $security,
+        private UserPasswordHasherInterface $passwordHasher,
+        private EntityManagerInterface $entityManager
     )
-    {
-        $this->security = $security;
-        $this->passwordEncoder = $passwordEncoder;
-        $this->entityManager = $entityManager;
-    }
+    {}
 
     public function __invoke(ChangePasswordRequest $request)
     {
@@ -35,7 +27,7 @@ class ChangePasswordRequestHandler implements MessageHandlerInterface
             throw new \RuntimeException(sprintf('User must be an instance of %s', User::class));
         }
 
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $request->password));
+        $user->setPassword($this->passwordHasher->hashPassword($user, $request->password));
         $this->entityManager->flush();
     }
 }

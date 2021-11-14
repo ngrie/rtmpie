@@ -9,18 +9,15 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CreateUserRequestHandler implements MessageHandlerInterface
 {
-    private UserPasswordEncoderInterface $passwordEncoder;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
-    {
-        $this->passwordEncoder = $passwordEncoder;
-        $this->entityManager = $entityManager;
-    }
+    public function __construct(
+        private UserPasswordHasherInterface $passwordHasher,
+        private EntityManagerInterface $entityManager
+    )
+    {}
 
     public function __invoke(CreateUserRequest $request)
     {
@@ -30,7 +27,7 @@ class CreateUserRequestHandler implements MessageHandlerInterface
 
         $user = new User();
         $user->setUsername($request->username);
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $request->password));
+        $user->setPassword($this->passwordHasher->hashPassword($user, $request->password));
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }

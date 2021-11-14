@@ -8,23 +8,22 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CreateFirstUserCommand extends Command
 {
     protected static $defaultName = 'app:create-first-user';
 
-    private UserPasswordEncoderInterface $passwordEncoder;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager, string $name = null)
+    public function __construct(
+        private UserPasswordHasherInterface $passwordHasher,
+        private EntityManagerInterface $entityManager,
+        string $name = null
+    )
     {
-        $this->passwordEncoder = $passwordEncoder;
-        $this->entityManager = $entityManager;
         parent::__construct($name);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Adds user "admin" with password "admin" if no user exists')
@@ -38,7 +37,7 @@ class CreateFirstUserCommand extends Command
         if (empty($this->entityManager->getRepository(User::class)->findOneBy([]))) {
             $user = new User();
             $user->setUsername('admin');
-            $user->setPassword($this->passwordEncoder->encodePassword($user, 'admin'));
+            $user->setPassword($this->passwordHasher->hashPassword($user, 'admin'));
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 

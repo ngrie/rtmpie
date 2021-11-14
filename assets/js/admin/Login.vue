@@ -68,7 +68,9 @@
     },
     mounted() {
       setTimeout(() => {
-        this.$refs.usernameInput.focus()
+        if (this.$refs.usernameInput) {
+          this.$refs.usernameInput.focus()
+        }
       }, 200)
     },
     methods: {

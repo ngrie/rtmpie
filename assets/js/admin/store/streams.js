@@ -57,7 +57,7 @@ const createStreamsModule = () => ({
       await dispatch('fetch')
 
       // Watch for Server Sent Events
-      const eventSource = new EventSource(config('sseHost'));
+      const eventSource = new EventSource(config('sseHost'), { withCredentials: true });
       eventSource.onmessage = ({ data }) => commit('addOrUpdate', JSON.parse(data))
       eventSource.onerror = () => {
         eventSource.close()

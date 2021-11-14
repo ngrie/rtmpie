@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Mercure\TopicsHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,7 @@ class PageController extends AbstractController
 {
     #[Route('/admin', name: 'admin')]
     #[Route('/admin/{path}', requirements: ['path' => '.+'])]
-    public function admin(Request $request): Response
+    public function admin(Request $request, TopicsHelper $topicsHelper): Response
     {
         $baseUrl = $this->generateUrl('home', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
@@ -22,8 +23,8 @@ class PageController extends AbstractController
             'config' => [
                 'host' => $request->getHost(),
                 'baseUrl' => $baseUrl,
-                'sseHost' => $baseUrl . '.well-known/mercure',
             ],
+            'mercureTopics' => $topicsHelper->getMercureTopics(),
         ]);
     }
 

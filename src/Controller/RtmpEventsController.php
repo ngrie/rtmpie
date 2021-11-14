@@ -18,9 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @Route("/rtmp-events")
- */
+#[Route('/rtmp-events')]
 class RtmpEventsController
 {
     private StreamRepository $streamRepository;
@@ -32,9 +30,7 @@ class RtmpEventsController
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * @Route("/play", methods={"POST"})
-     */
+    #[Route('/play', methods: ['POST'])]
     public function playEvent(Request $request): Response
     {
         $stream = $this->getStreamFromRequest($request);
@@ -44,9 +40,7 @@ class RtmpEventsController
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * @Route("/play-done", methods={"POST"})
-     */
+    #[Route('/play-done', methods: ['POST'])]
     public function playDoneEvent(Request $request): Response
     {
         $stream = $this->getStreamFromRequest($request);
@@ -56,9 +50,7 @@ class RtmpEventsController
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * @Route("/publish", methods={"POST"})
-     */
+    #[Route('/publish', methods: ['POST'])]
     public function publishEvent(Request $request): Response
     {
         $key = $request->request->get('key');
@@ -76,9 +68,7 @@ class RtmpEventsController
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * @Route("/publish-done", methods={"POST"})
-     */
+    #[Route('/publish-done', methods: ['POST'])]
     public function publishDoneEvent(Request $request): Response
     {
         $stream = $this->getStreamFromRequest($request);

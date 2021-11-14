@@ -12,9 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-/**
- * @Route("/api/thumbnails")
- */
+#[Route('/api/thumbnails')]
 class ThumbnailController extends AbstractController
 {
     private StreamRepository $streamRepository;
@@ -28,10 +26,8 @@ class ThumbnailController extends AbstractController
         $this->rtmpThumbnailsBaseUrl = $rtmpThumbnailsBaseUrl;
     }
 
-    /**
-     * @Route("")
-     */
-    public function list()
+    #[Route('')]
+    public function list(): Response
     {
         $streams = $this->streamRepository->findBy(['live' => true]);
         $result = [];
@@ -47,10 +43,8 @@ class ThumbnailController extends AbstractController
         return $this->json($result);
     }
 
-    /**
-     * @Route("/{streamId}", name="stream_thumbnail")
-     */
-    public function image($streamId)
+    #[Route('/{streamId}', name: 'stream_thumbnail')]
+    public function image($streamId): Response
     {
         $stream = $this->streamRepository->findOneById($streamId);
         if (!$stream) {
@@ -60,7 +54,7 @@ class ThumbnailController extends AbstractController
         return $this->getImage($stream);
     }
 
-    private function getImage(Stream $stream)
+    private function getImage(Stream $stream): ?Response
     {
         $file = $this->httpClient->request('GET', $this->rtmpThumbnailsBaseUrl . $stream->getSlug() . '.png');
         if ($file->getStatusCode() !== 200) {

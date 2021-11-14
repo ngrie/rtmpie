@@ -14,11 +14,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="login", methods={"POST"})
-     * @Route("/me")
-     *
      * @throws ExceptionInterface
      */
+    #[Route('/login', name: 'login', methods: ['POST'])]
+    #[Route('/me')]
     public function login(NormalizerInterface $normalizer): Response
     {
         $user = $this->getUser();
@@ -30,10 +29,8 @@ class SecurityController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/logout", name="logout")
-     */
-    public function logout()
+    #[Route('/logout', name: 'logout')]
+    public function logout(): Response
     {
         // we should not get to this point
         throw new \RuntimeException();

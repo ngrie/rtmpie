@@ -6,15 +6,14 @@ namespace App\Controller;
 
 use App\Repository\StreamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PublicPlayerController extends AbstractController
 {
-    /**
-     * @Route("/play/{streamSlug}", name="public_player")
-     */
-    public function index(string $streamSlug, StreamRepository $streamRepository, string $rtmpHttpFlvBaseUrl)
+    #[Route('/play/{streamSlug}', name: 'public_player')]
+    public function index(string $streamSlug, StreamRepository $streamRepository, string $rtmpHttpFlvBaseUrl): Response
     {
         $stream = $streamRepository->findOneBySlug($streamSlug);
         if (!$stream) {

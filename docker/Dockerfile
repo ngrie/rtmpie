@@ -17,7 +17,7 @@ COPY --from=frontend-builder /app/public/build /var/www/public/build
 WORKDIR /var/www/public
 
 
-FROM php:7.4-fpm-alpine AS rtmpie-php
+FROM php:8.0-fpm-alpine AS rtmpie-php
 
 RUN set -eux; \
     apk add --no-cache --virtual .build-deps \

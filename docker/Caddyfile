@@ -1,4 +1,4 @@
-{$SERVER_NAME:localhost}
+caddy:80, {$SERVER_NAME:localhost}
 
 log
 

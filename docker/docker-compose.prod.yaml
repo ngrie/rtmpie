@@ -2,16 +2,18 @@ version: '3.4'
 
 services:
     php:
-        image: docker.pkg.github.com/ngrie/rtmpie/php:latest
+        image: ghcr.io/ngrie/rtmpie/php:latest
         build:
           context: ..
           dockerfile: docker/Dockerfile
           target: rtmpie-php
         environment:
-            MERCURE_PUBLIC_URL: http://127.0.0.1/.well-known/mercure
+            APP_SECRET: ${RTMPIE_APP_SECRET}
+            DATABASE_URL: mysql://root:${RTMPIE_DATABASE_PASSWORD}@database:3306/rtmpie?serverVersion=mariadb-10.4.12
+            MERCURE_PUBLIC_URL: ${RTMPIE_HTTP_SCHEME}://${RTMPIE_HOSTNAME}/.well-known/mercure
 
     caddy:
-        image: docker.pkg.github.com/ngrie/rtmpie/caddy:latest
+        image: ghcr.io/ngrie/rtmpie/caddy:latest
         build:
             context: ..
             dockerfile: docker/Dockerfile
@@ -20,15 +22,15 @@ services:
             - 80:80
             - 443:443
         environment:
-            SERVER_NAME: ':80'
-            MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
-            MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+            SERVER_NAME: ${RTMPIE_CADDY_SERVER_NAME}
+            MERCURE_PUBLISHER_JWT_KEY: ${RTMPIE_MERCURE_PUBLISHER_JWT_KEY}
+            MERCURE_SUBSCRIBER_JWT_KEY: ${RTMPIE_MERCURE_SUBSCRIBER_JWT_KEY}
         volumes:
             - mercure_data:/data
             - mercure_config:/config
 
     rtmp:
-        image: docker.pkg.github.com/ngrie/rtmpie/rtmp:latest
+        image: ghcr.io/ngrie/rtmpie/rtmp:latest
         build:
             context: ..
             dockerfile: docker/Dockerfile
@@ -39,7 +41,7 @@ services:
     database:
         image: mariadb:10.4
         environment:
-            MYSQL_ROOT_PASSWORD: rtmpie
+            MYSQL_ROOT_PASSWORD: ${RTMPIE_DATABASE_PASSWORD}
             MYSQL_DATABASE: rtmpie
         volumes:
             - database:/var/lib/mysql

@@ -11,6 +11,6 @@ api_platform:
             mime_types: ['text/html']
     swagger:
         versions: [3]
-    collection:
-        pagination:
-            enabled: false
+
+    defaults:
+        pagination_enabled: false

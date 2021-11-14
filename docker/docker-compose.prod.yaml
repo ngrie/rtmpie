@@ -3,10 +3,6 @@ version: '3.4'
 services:
     php:
         image: ghcr.io/ngrie/rtmpie/php:latest
-        build:
-          context: ..
-          dockerfile: docker/Dockerfile
-          target: rtmpie-php
         environment:
             APP_SECRET: ${RTMPIE_APP_SECRET}
             DATABASE_URL: mysql://root:${RTMPIE_DATABASE_PASSWORD}@database:3306/rtmpie?serverVersion=mariadb-10.4.12
@@ -14,10 +10,6 @@ services:
 
     caddy:
         image: ghcr.io/ngrie/rtmpie/caddy:latest
-        build:
-            context: ..
-            dockerfile: docker/Dockerfile
-            target: rtmpie-caddy
         ports:
             - 80:80
             - 443:443
@@ -31,10 +23,6 @@ services:
 
     rtmp:
         image: ghcr.io/ngrie/rtmpie/rtmp:latest
-        build:
-            context: ..
-            dockerfile: docker/Dockerfile
-            target: rtmpie-rtmp
         ports:
             - 1935:1935
 

@@ -12,7 +12,7 @@ module.exports = {
     display: ['responsive', 'group-hover'],
   },
   plugins: [
-    require('@tailwindcss/ui'),
+    require('@tailwindcss/forms'),
   ],
   purge: {
     content: [

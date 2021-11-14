@@ -53,7 +53,7 @@
                     <p class="mt-3 text-sm leading-5 md:mt-0 md:ml-6">
                       <a
                         href="#"
-                        class="whitespace-no-wrap font-medium text-blue-700 hover:text-blue-600 transition ease-in-out duration-150"
+                        class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600 transition ease-in-out duration-150"
                         @click.prevent="updateForm"
                       >
                         <fa-icon :icon="['fas', 'redo']" class="mr-1" />
@@ -73,7 +73,7 @@
                   <div class="col-span-3 sm:col-span-2">
                     <label for="name" class="block text-sm font-medium leading-5 text-gray-700">Name</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
-                      <input v-model="form.name" id="name" class="form-input block w-full sm:text-sm sm:leading-5" />
+                      <input v-model="form.name" type="text" id="name" class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                     </div>
                   </div>
                 </div>
@@ -87,7 +87,7 @@
                       <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                         {{ rtmpPrefix }}
                       </span>
-                      <input v-model="form.slug" id="slug" class="form-input flex-1 block w-full rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                      <input v-model="form.slug" type="text" id="slug" class="form-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" />
                     </div>
                   </div>
                 </div>
@@ -97,7 +97,7 @@
                   <button
                     :disabled="stream.live"
                     type="submit"
-                    class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     :class="{ 'opacity-50 cursor-not-allowed': stream.live, 'hover:bg-indigo-500': !stream.live }"
                   >
                     Save
@@ -143,7 +143,7 @@
                 <span class="inline-flex rounded-md shadow-sm">
                   <button
                     type="button"
-                    class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     @click="showRegenerateKeyDialog = true"
                   >
                     <fa-icon :icon="['fas', 'redo']" class="-ml-1 mr-2 h-5 w-5" />

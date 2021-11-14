@@ -11,14 +11,14 @@
       <BaseButton
         color="red"
         class="flex w-full sm:ml-3 sm:w-auto"
-        button-class="justify-center w-full text-base leading-6 shadow-sm focus:shadow-outline-red sm:text-sm sm:leading-5"
+        button-class="justify-center w-full text-base leading-6 shadow-sm focus:ring-red-500 sm:text-sm sm:leading-5"
         @click="confirm"
       >
         Delete user
       </BaseButton>
       <BaseButton
         class="mt-3 flex w-full sm:ml-3 sm:mt-0 sm:w-auto"
-        button-class="justify-center w-full text-base leading-6 shadow-sm focus:shadow-outline-red sm:text-sm sm:leading-5"
+        button-class="justify-center w-full text-base leading-6 shadow-sm focus:ring-indigo-500 sm:text-sm sm:leading-5"
         @click="cancel"
       >
         Cancel

@@ -61,7 +61,7 @@ ENV APP_ENV prod
 ENV SYMFONY_ENV prod
 ENV APP_DEBUG 0
 ENV DATABASE_URL mysql://root:rtmpie@database:3306/rtmpie?serverVersion=mariadb-10.4.12
-ENV MERCURE_PUBLISH_URL http://mercure/.well-known/mercure
+ENV MERCURE_URL http://mercure/.well-known/mercure
 ENV RTMP_THUMBNAILS_BASE_URL http://rtmp/thumbnails/
 ENV RTMP_CONTROL_MODULE_BASE_URL http://rtmp/control/
 ENV RTMP_HTTP_FLV_BASE_URL /live

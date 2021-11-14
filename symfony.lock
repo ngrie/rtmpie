@@ -102,6 +102,12 @@
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
+    "lcobucci/clock": {
+        "version": "2.1.0"
+    },
+    "lcobucci/jwt": {
+        "version": "4.1.5"
+    },
     "monolog/monolog": {
         "version": "2.0.2"
     },
@@ -266,7 +272,7 @@
         ]
     },
     "symfony/http-client": {
-        "version": "v5.0.7"
+        "version": "v5.3.10"
     },
     "symfony/http-client-contracts": {
         "version": "v2.0.1"
@@ -287,15 +293,15 @@
         }
     },
     "symfony/mercure": {
-        "version": "v0.3.0"
+        "version": "v0.6.0"
     },
     "symfony/mercure-bundle": {
-        "version": "0.2",
+        "version": "0.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "0.2",
-            "ref": "9c94631c3fc2e9ab2302380ebb36b5942f5be676"
+            "version": "0.3",
+            "ref": "e0a854b5439186e04b28fb8887b42c54f24a0d32"
         },
         "files": [
             "config/packages/mercure.yaml"

@@ -9,13 +9,14 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
     {{ encore_entry_link_tags('admin') }}
+    {{ encore_entry_script_tags('admin') }}
 </head>
 <body>
 <div id="app"></div>
 
 <script type="text/javascript">
+    {% set config = config|merge({ sseHost: mercure(['/api/streams/{id}', config.baseUrl ~ 'api/streams/{id}']) }) %}
     var rtmpie_config = JSON.parse('{{ config|json_encode|raw }}');
 </script>
-{{ encore_entry_script_tags('admin') }}
 </body>
 </html>

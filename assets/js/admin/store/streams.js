@@ -57,11 +57,7 @@ const createStreamsModule = () => ({
       await dispatch('fetch')
 
       // Watch for Server Sent Events
-      const url = new URL(config('sseHost'));
-      url.searchParams.append('topic', '/api/streams/{id}');
-      // TODO: this is necessary to catch updates triggered by API Platform
-      url.searchParams.append('topic', `${config('baseUrl')}api/streams/{id}`);
-      const eventSource = new EventSource(url);
+      const eventSource = new EventSource(config('sseHost'));
       eventSource.onmessage = ({ data }) => commit('addOrUpdate', JSON.parse(data))
       eventSource.onerror = () => {
         eventSource.close()

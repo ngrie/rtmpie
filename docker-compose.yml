@@ -1,0 +1,70 @@
+networks:
+    local:
+        driver: bridge
+
+volumes:
+    rtmpie_database:
+    mercure_data:
+    mercure_config:
+
+services:
+
+    rtmpie_php:
+        container_name : rtmpie_php
+        image          : ghcr.io/ngrie/rtmpie/php:latest
+        restart        : unless-stopped
+
+        environment:
+            APP_SECRET         : ${RTMPIE_APP_SECRET}
+            DATABASE_URL       : mysql://root:${RTMPIE_DATABASE_PASSWORD}@database:3306/rtmpie?serverVersion=mariadb-10.4.12
+            MERCURE_PUBLIC_URL : ${RTMPIE_HTTP_SCHEME}://${RTMPIE_HOSTNAME}/.well-known/mercure
+            MERCURE_JWT_SECRET : ${RTMPIE_MERCURE_JWT_KEY}
+
+        networks:
+            - local
+
+
+    rtmpie_caddy:
+        container_name : rtmpie_caddy
+        image          : ghcr.io/ngrie/rtmpie/caddy:latest
+        restart        : unless-stopped
+
+        environment:
+            SERVER_NAME                : ${RTMPIE_CADDY_SERVER_NAME}
+            MERCURE_PUBLISHER_JWT_KEY  : ${RTMPIE_MERCURE_JWT_KEY}
+            MERCURE_SUBSCRIBER_JWT_KEY : ${RTMPIE_MERCURE_JWT_KEY}
+
+        volumes:
+            - mercure_data:/data
+            - mercure_config:/config
+        networks:
+            - local
+        ports:
+            - 80:80
+            - 443:443
+
+
+    rtmpie_rtmp:
+        container_name : rtmpie_rtmp
+        image          : ghcr.io/ngrie/rtmpie/rtmp:latest
+        restart        : unless-stopped
+
+        networks:
+            - local
+        ports:
+            - 1935:1935
+
+
+    rtmpie_database:
+        container_name : rtmpie_database
+        image          : mariadb:10.4
+        restart        : unless-stopped
+
+        environment:
+            MYSQL_ROOT_PASSWORD: ${RTMPIE_DATABASE_PASSWORD}
+            MYSQL_DATABASE     : rtmpie
+
+        volumes:
+            - rtmpie_database:/var/lib/mysql
+        networks:
+            - local

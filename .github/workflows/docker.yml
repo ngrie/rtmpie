@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Login to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -22,25 +22,25 @@ jobs:
 
       - name: Extract metadata for PHP Docker image
         id: meta_php
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository }}/php
 
       - name: Extract metadata for Caddy Docker image
         id: meta_caddy
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository }}/caddy
 
       - name: Extract metadata for RTMP Docker image
         id: meta_rtmp
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository }}/rtmp
 
 
       - name: Build and push PHP Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           file: docker/Dockerfile
           target: rtmpie-php
@@ -49,7 +49,7 @@ jobs:
           labels: ${{ steps.meta_php.outputs.labels }}
 
       - name: Build and push Caddy Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           file: docker/Dockerfile
           target: rtmpie-caddy
@@ -58,7 +58,7 @@ jobs:
           labels: ${{ steps.meta_caddy.outputs.labels }}
 
       - name: Build and push RTMP Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           file: docker/Dockerfile
           target: rtmpie-rtmp

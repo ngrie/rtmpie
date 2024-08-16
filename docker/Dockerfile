@@ -3,16 +3,13 @@ FROM node:alpine AS frontend-builder
 COPY . /app
 WORKDIR /app
 
-RUN npm install; \
-    npm run build
-
+RUN npm install && npm run build
 
 FROM caddy:2-builder AS caddy-builder
 
 RUN xcaddy build \
     --with github.com/dunglas/mercure \
     --with github.com/dunglas/mercure/caddy
-
 
 FROM caddy:2 AS rtmpie-caddy
 
@@ -22,8 +19,7 @@ COPY docker/Caddyfile /etc/caddy/Caddyfile
 COPY public /var/www/public
 COPY --from=frontend-builder /app/public/build /var/www/public/build
 
-
-FROM php:8.0-fpm-alpine AS rtmpie-php
+FROM php:8.3-fpm-alpine AS rtmpie-php
 
 RUN set -eux; \
     apk add --no-cache --virtual .build-deps \
@@ -63,6 +59,7 @@ WORKDIR /var/www
 
 RUN mkdir -p var/cache var/log
 
+ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV APP_ENV prod
 ENV SYMFONY_ENV prod
 ENV APP_DEBUG 0
@@ -72,8 +69,8 @@ ENV RTMP_THUMBNAILS_BASE_URL http://rtmp/thumbnails/
 ENV RTMP_CONTROL_MODULE_BASE_URL http://rtmp/control/
 ENV RTMP_HTTP_FLV_BASE_URL /live
 
-RUN composer install --prefer-dist --no-dev --no-progress --no-interaction --optimize-autoloader; \
-    composer dump-autoload --no-dev --classmap-authoritative; \
+RUN composer install --prefer-dist --no-dev --no-progress --no-interaction --optimize-autoloader && \
+    composer dump-autoload --no-dev --classmap-authoritative && \
     composer dump-env prod
 
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
@@ -85,7 +82,6 @@ USER www-data
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
-
 
 FROM ngrie/nginx-rtmp:latest AS rtmpie-rtmp
 

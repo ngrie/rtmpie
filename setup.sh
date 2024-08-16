@@ -2,6 +2,14 @@
 
 set -o pipefail
 
+if [ -f .env ]; then
+  rm .env
+fi
+
+if [ -f rtmpie.conf ]; then
+  rm rtmpie.conf
+fi
+
 rand() {
   echo `cat /dev/urandom | env LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
 }
@@ -12,10 +20,8 @@ if [ -f rtmpie.conf ]; then
   exit 1
 fi
 
-wget -O docker-compose.yml https://raw.githubusercontent.com/ngrie/rtmpie/main/docker/docker-compose.prod.yaml
-
 while [ -z "${RTMPIE_HOSTNAME}" ]; do
-  read -p "Enter the hostname you want to use for RTMPie (e.g. demo.rtmpie.de): " -e RTMPIE_HOSTNAME
+  read -p "Enter the hostname you want to use for RTMPie (e.g. 127.0.0.1 or demo.rtmpie.de): " -e RTMPIE_HOSTNAME
 done
 
 read -r -p  "Do you want to enable SSL (access the application using https:// instead of http://) (recommended)? [Y/n] " response

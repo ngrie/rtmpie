@@ -48,7 +48,7 @@ The webinteface will be available after a few seconds and you can login using th
 
 ```bash
 ffmpeg -re -i 'https://meclistv-live.ercdn.net/meclistv/meclistv_720p.m3u8' \
-	-c:v libx264 -preset veryfast -b:v 1M -c:a aac -b:a 128k -f flv \
+	-c:v libx264 -preset medium -b:v 1M -s 1280x720 -c:a aac -b:a 128k -f flv \
 	'rtmp://127.0.0.1/live/test?key=5c24303c30494b198e6519ccde445758'
 ```
 

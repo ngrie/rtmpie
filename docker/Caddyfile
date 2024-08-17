@@ -14,10 +14,9 @@ route {
 		subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
 	}
 
-	route /live {
-        rewrite * /live?{query}&port=1935&app=live
-        reverse_proxy http://rtmpie_rtmp
-    }
+	route /live/* {
+		reverse_proxy http://rtmpie_rtmp
+	}
 
 	php_fastcgi rtmpie_php:9000
 
